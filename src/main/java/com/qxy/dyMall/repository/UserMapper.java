@@ -3,9 +3,6 @@ package com.qxy.dyMall.repository;
 import com.qxy.dyMall.model.User;
 import org.apache.ibatis.annotations.*;
 import org.mybatis.spring.annotation.MapperScan;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
 
 @Mapper
 @MapperScan("com.qxy.dyMall.repository")
@@ -25,5 +22,9 @@ public interface UserMapper {
     @Select("SELECT * FROM users WHERE email = #{email}")
     User findByEmail(String email);
 
+    @Update("UPDATE users SET username = #{username}, password = #{password}, email = #{email} WHERE id = #{id}")
+    void updateUser(User user);
 
+    @Delete("DELETE FROM users WHERE id = #{id}")
+    void deleteUser(long id);
 }

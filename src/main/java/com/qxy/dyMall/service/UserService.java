@@ -48,8 +48,25 @@ public class UserService {
         userMapper.insertUser(user);
     }
 
-    public User updateUser(Long id, User user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateUser'");
+    @Transactional
+    public void updateUser(Long id, User user) {
+        User existingUser = userMapper.findUserById(id);
+        if (existingUser == null) {
+            throw new RuntimeException("User not found");
+        }
+
+        existingUser.setUsername(user.getUsername());
+        existingUser.setPassword(user.getPassword()); // 这里可以加上密码加密
+        existingUser.setEmail(user.getEmail());
+
+        userMapper.updateUser(existingUser);
+    }
+
+    @Transactional
+    public void deleteUser(Long id) {
+        User existingUser = userMapper.findUserById(id);
+        if (existingUser == null) {
+            throw new RuntimeException("User not found");
+        } else {userMapper.deleteUser(id); }
     }
 }
