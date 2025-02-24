@@ -3,6 +3,9 @@ package com.qxy.dyMall.repository;
 import com.qxy.dyMall.model.User;
 import org.apache.ibatis.annotations.*;
 import org.mybatis.spring.annotation.MapperScan;
+import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 
 @Mapper
 @MapperScan("com.qxy.dyMall.repository")

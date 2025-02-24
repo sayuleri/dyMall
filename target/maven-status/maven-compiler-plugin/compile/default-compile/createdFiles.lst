@@ -1,5 +1,10 @@
+com\qxy\dyMall\config\SecurityConfig.class
+com\qxy\dyMall\model\Product.class
+com\qxy\dyMall\repository\ProductMapper.class
+com\qxy\dyMall\controller\ProductController.class
 com\qxy\dyMall\repository\UserMapper.class
 com\qxy\dyMall\controller\UserController.class
+com\qxy\dyMall\service\ProductService.class
 com\qxy\dyMall\DyMallApplication.class
 com\qxy\dyMall\controller\HelloController.class
 com\qxy\dyMall\model\User.class
