@@ -42,32 +42,14 @@ public class UserService {
         //throw new UnsupportedOperationException("Unimplemented method 'createUser'");
     }
     
-    // @Transactional
-    // public void saveUser(User user) {
-    //     user.setPassword(passwordEncoder.encode(user.getPassword())); // 确保密码加密
-    //     userMapper.insertUser(user);
-    // }
-
-    //test-password存储
-    // public void saveUser(User user) {
-    //     if (userMapper.findByEmail(user.getEmail()) != null) {
-    //         throw new RuntimeException("Email 已存在: " + user.getEmail());
-    //     }
-    //     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    
-    //     System.out.println("准备插入用户: " + user.getUsername()); 
-    //     int rowsAffected = userMapper.insertUser(user);
-    //     System.out.println("数据库影响行数: " + rowsAffected);
-    
-    //     if (rowsAffected > 0) {
-    //         System.out.println("提交事务...");
-    //     } else {
-    //         throw new RuntimeException("插入失败，事务回滚");
-    //     }
-    // }    
     @Transactional
     public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userMapper.insertUser(user);
+    }
+
+    public User updateUser(Long id, User user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateUser'");
     }
 }

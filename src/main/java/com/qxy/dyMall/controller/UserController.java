@@ -56,4 +56,10 @@ public class UserController {
         userService.saveUser(user);
         return ResponseEntity.ok("User created: " + user.getUsername());
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+        User updatedUser = userService.updateUser(id, user);
+        return updatedUser != null ? ResponseEntity.ok(updatedUser) : ResponseEntity.notFound().build();
+    }
 }
