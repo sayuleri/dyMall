@@ -12,17 +12,17 @@ public class SecurityConfig {
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    @SuppressWarnings("removal")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // 关闭 CSRF 保护（仅用于开发环境）
+            .csrf(csrf -> csrf.disable())  // 🚀 禁用 CSRF，解决 403 问题
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/**").permitAll() // 允许访问 `/api/` 开头的所有接口
-                .anyRequest().authenticated()) // 其他请求需要认证
-            .formLogin(login -> login.disable()) // 关闭表单登录
-            .httpBasic(basic -> basic.disable()); // 关闭 Basic Auth
+                .requestMatchers("/api/users").permitAll()  // 🚀 允许所有用户访问 `POST /api/users`
+                .requestMatchers("/api/users/**").permitAll() // 🚀 允许所有用户访问 `GET /api/users/{id}`
+                .anyRequest().authenticated()  // 其他请求需要认证
+            )
+            .formLogin(form -> form.disable()) // 🚀 关闭 Spring Security 登录页面
+            .httpBasic(httpBasic -> httpBasic.disable()); // 🚀 关闭 Basic Auth
 
         return http.build();
     }

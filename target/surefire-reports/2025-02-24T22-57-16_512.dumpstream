@@ -1,0 +1,5 @@
+# Created at 2025-02-24T22:57:16.764
+Boot Manifest-JAR contains absolute paths in classpath 'D:\BaiduSyncdisk\qxy\dyMall\dyMall\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+

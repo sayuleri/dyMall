@@ -39,9 +39,21 @@ public class UserController {
     //     return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     // }
 
+    // @PostMapping
+    // public ResponseEntity<String> createUser(@RequestBody User user) {//创建用户
+    //     System.out.println("Received user: " + user.getUsername());
+    //     return ResponseEntity.ok("User created: " + user.getUsername());
+    // }
+
+    // @PostMapping("/users")
+    // public ResponseEntity<String> createUser(@RequestBody User user) {
+    //     userService.saveUser(user);
+    //     return ResponseEntity.ok("User created successfully");
+    // }
+
     @PostMapping
-    public ResponseEntity<String> createUser(@RequestBody User user) {//创建用户
-        System.out.println("Received user: " + user.getUsername());
+    public ResponseEntity<String> createUser(@RequestBody User user) {
+        userService.saveUser(user);
         return ResponseEntity.ok("User created: " + user.getUsername());
     }
 }
