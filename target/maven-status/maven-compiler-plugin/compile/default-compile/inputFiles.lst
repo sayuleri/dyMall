@@ -1,6 +1,11 @@
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\config\SecurityConfig.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\HelloController.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\ProductController.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\UserController.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\DyMallApplication.java
-D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\mapper\UserMapper.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\Product.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\User.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\repository\ProductMapper.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\repository\UserMapper.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\service\ProductService.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\service\UserService.java
