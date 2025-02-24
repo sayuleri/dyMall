@@ -8,19 +8,22 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 public class SecurityConfig {
-
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()  // 关闭 CSRF 保护，允许 POST
-            .authorizeHttpRequests()
-            .requestMatchers("/users").permitAll()  // 允许 /users 访问
-            .anyRequest().authenticated()
-            .and()
-            .httpBasic();  // 启用 Basic Auth
-        return http.build();
-    }
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @SuppressWarnings("removal")
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable()) // 关闭 CSRF 保护（仅用于开发环境）
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/api/**").permitAll() // 允许访问 `/api/` 开头的所有接口
+                .anyRequest().authenticated()) // 其他请求需要认证
+            .formLogin(login -> login.disable()) // 关闭表单登录
+            .httpBasic(basic -> basic.disable()); // 关闭 Basic Auth
+
+        return http.build();
     }
 }
