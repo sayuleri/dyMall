@@ -8,7 +8,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import com.qxy.dyMall.model.User;
 import com.qxy.dyMall.service.UserService;
 
-
 @MapperScan("com.qxy.dyMall.repository")
 @SpringBootApplication
 public class DyMallApplication {

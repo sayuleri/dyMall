@@ -27,7 +27,4 @@ public interface UserMapper {
 
     @Delete("DELETE FROM users WHERE id = #{id}")
     void deleteUser(long id);
-
-    @Select("SELECT * FROM users WHERE username = #{username}")
-    User findUserByName(Object username);
 }
