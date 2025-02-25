@@ -2,6 +2,9 @@ package com.qxy.dyMall.service;
 
 import com.qxy.dyMall.model.User;
 import com.qxy.dyMall.repository.UserMapper;
+import com.qxy.dyMall.utils.JwtUtil;
+import com.qxy.dyMall.controller.LoginRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,9 +30,16 @@ public class UserService {
         userMapper.insertUser(user);
     }
 
-    public boolean loginUser(String username, String password) {
+    public String loginUser(String username, String password) {
         User user = userMapper.findByUsername(username);
-        return user != null && passwordEncoder.matches(password, user.getPassword());
+        System.out.println("输入密码: " + LoginRequest.getPassword());
+        System.out.println("数据库密码: " + user.getPassword());
+        System.out.println("匹配结果: " + passwordEncoder.matches(LoginRequest.getPassword(), user.getPassword()));
+
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return JwtUtil.generateToken(username); // 生成 JWT 令牌
+        }
+        return null;
     }
     public User getUserById(Long id) {
         return userMapper.findUserById(id);
@@ -68,5 +78,14 @@ public class UserService {
         if (existingUser == null) {
             throw new RuntimeException("User not found");
         } else {userMapper.deleteUser(id); }
+    }
+
+    @Transactional
+    public User findByUsername(Object username) {
+        User existingUser = userMapper.findUserByName(username);
+        if (existingUser == null) {
+            throw new RuntimeException("User not found");
+        }
+                return null;
     }
 }

@@ -2,18 +2,32 @@ package com.qxy.dyMall.controller;
 
 import com.qxy.dyMall.model.User;
 import com.qxy.dyMall.service.UserService;
+
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
+import java.nio.charset.StandardCharsets;
+import java.sql.Date;
+import java.util.Collections;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+import com.qxy.dyMall.controller.LoginRequest;
+
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     public String register(@RequestBody Map<String, String> request) {
@@ -22,10 +36,23 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody Map<String, String> request) {
-        boolean success = userService.loginUser(request.get("username"), request.get("password"));
-        return success ? "登录成功" : "用户名或密码错误";
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+        User user = userService.findByUsername(loginRequest.getUsername());
+        if (user == null || !passwordEncoder.matches((CharSequence) loginRequest.getPassword(), user.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("用户名或密码错误");
+        }
+
+        @SuppressWarnings("deprecation")
+        String token = Jwts.builder()
+            .setSubject(user.getUsername())
+            .setIssuedAt(new Date(0))
+            .setExpiration(new Date(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000)) // 7 天有效期
+            .signWith(SignatureAlgorithm.HS256, "your-256-bit-secret".getBytes(StandardCharsets.UTF_8))
+            .compact();
+
+        return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
