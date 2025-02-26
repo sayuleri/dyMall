@@ -1,4 +1,6 @@
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\config\RedisConfig.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\config\SecurityConfig.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\CartController.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\HelloController.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\LoginRequest.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\ProductController.java
@@ -6,10 +8,14 @@ D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\UserC
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\DyMallApplication.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\exception\GlobalExceptionHandler.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\filter\JwtFilter.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\mapper\CartMapper.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\mapper\ProductMapper.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\mapper\UserMapper.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\CartItem.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\Product.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\User.java
-D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\repository\ProductMapper.java
-D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\repository\UserMapper.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\service\CartService.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\service\impl\CartServiceImpl.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\service\ProductService.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\service\UserDetailsServiceImpl.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\service\UserService.java

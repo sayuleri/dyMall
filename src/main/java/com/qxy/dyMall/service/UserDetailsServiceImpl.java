@@ -1,7 +1,7 @@
 package com.qxy.dyMall.service;
 
 import com.qxy.dyMall.model.User;
-import com.qxy.dyMall.repository.UserMapper;
+import com.qxy.dyMall.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

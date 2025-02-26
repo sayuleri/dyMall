@@ -1,7 +1,7 @@
 package com.qxy.dyMall.service;
 
 import com.qxy.dyMall.model.Product;
-import com.qxy.dyMall.repository.ProductMapper;
+import com.qxy.dyMall.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

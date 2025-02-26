@@ -1,7 +1,7 @@
 package com.qxy.dyMall.service;
 
 import com.qxy.dyMall.model.User;
-import com.qxy.dyMall.repository.UserMapper;
+import com.qxy.dyMall.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -43,6 +43,11 @@ public class UserService {
     // 🔹 根据 ID 查询用户
     public User getUserById(Long id) {
         return userMapper.findUserById(id);
+    }
+
+    // 🔹 根据用户名查询用户
+    public User findByUsername(String username) {
+        return userMapper.findByUsername(username);
     }
 
     // 🔹 创建用户
