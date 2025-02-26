@@ -10,6 +10,7 @@ com\qxy\dyMall\controller\UserController.class
 com\qxy\dyMall\filter\JwtFilter.class
 com\qxy\dyMall\DyMallApplication.class
 com\qxy\dyMall\controller\HelloController.class
+com\qxy\dyMall\exception\GlobalExceptionHandler.class
 com\qxy\dyMall\model\User.class
 com\qxy\dyMall\service\UserService.class
 com\qxy\dyMall\utils\JwtUtil.class
