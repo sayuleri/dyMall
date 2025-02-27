@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order createOrder(Long userId, List<Long> productIds) {
-        // 获取购物车中对应的商品
+        // 获取购物车中选中的商品
         List<CartItem> cartItems = cartMapper.getSelectedCartItems(userId, productIds);
         if (cartItems.isEmpty()) {
             throw new IllegalArgumentException("购物车中没有选中的商品");
@@ -45,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
             orderItem.setProductId(item.getProductId());
             orderItem.setQuantity(item.getQuantity());
 
-            // 处理 item.getPrice() 可能为空的情况
+            // 处理可能的空价格情况
             BigDecimal price = item.getPrice() != null ? item.getPrice() : BigDecimal.ZERO;
             orderItem.setPrice(price);
 

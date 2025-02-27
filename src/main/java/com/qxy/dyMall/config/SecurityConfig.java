@@ -30,10 +30,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // 🔥 禁用 CSRF，避免 403 Forbidden
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/api/users/register", "/api/users/login").permitAll() // ✅ 允许注册和登录
-                .requestMatchers(HttpMethod.POST, "/api/cart/**").authenticated() // 允许已登录用户访问购物车API
+                .requestMatchers(HttpMethod.POST, "/api/cart/**", "/api/order/**").authenticated() // ✅ 允许已登录用户访问
                 .anyRequest().authenticated() // 其他 API 需要 JWT 认证
             )
-            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class); // ✅ 添加 JWT 过滤器
+            .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
