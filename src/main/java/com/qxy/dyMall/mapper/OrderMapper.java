@@ -3,6 +3,7 @@ package com.qxy.dyMall.mapper;
 import com.qxy.dyMall.model.Order;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 public interface OrderMapper {
 
     @Insert("INSERT INTO orders (user_id, total_price, status, created_at) VALUES (#{userId}, #{totalPrice}, #{status}, NOW())")
+    @Options(useGeneratedKeys = true, keyProperty = "id") // ✅ 让 MyBatis 自动填充 order.id
     void insertOrder(Order order);
 
     @Select("SELECT * FROM orders WHERE user_id = #{userId}")

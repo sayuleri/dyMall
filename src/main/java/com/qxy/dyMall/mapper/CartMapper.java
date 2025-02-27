@@ -55,4 +55,8 @@ public interface CartMapper {
         "</script>"
     })
     void deleteCartItems(@Param("userId") Long userId, @Param("productIds") List<Long> productIds);
+
+    // ✅ **新增方法：获取购物车商品种类数量**
+    @Select("SELECT COUNT(DISTINCT product_id) FROM cart_items WHERE cart_id = (SELECT id FROM cart WHERE user_id = #{userId})")
+    int countCartItems(@Param("userId") Long userId);
 }

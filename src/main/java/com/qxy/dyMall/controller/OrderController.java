@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/orders") // 确保和 Postman 里使用的路径匹配
+@RequestMapping("/api/order") // 确保和 Postman 里使用的路径匹配
 public class OrderController {
 
     @Autowired
