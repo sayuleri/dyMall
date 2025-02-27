@@ -1,13 +1,16 @@
 package com.qxy.dyMall.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.qxy.dyMall.model.CartItem;
 import com.qxy.dyMall.mapper.CartMapper;
 import com.qxy.dyMall.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -23,44 +26,55 @@ public class CartServiceImpl implements CartService {
 
     private static final String CART_KEY_PREFIX = "cart:";
 
+    @Transactional
     @Override
     public void addItem(Long userId, Long productId, Integer quantity) {
-        String cartKey = CART_KEY_PREFIX + userId;  // 确保 Redis Key 是 String
-        String productKey = String.valueOf(productId);  // 确保 Hash Key 也是 String
+        String cartKey = CART_KEY_PREFIX + userId;
+        String productKey = String.valueOf(productId);
 
-        // 获取购物车中的商品
-        CartItem item = (CartItem) redisTemplate.opsForHash().get(cartKey, productKey);
-        
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
+        // 反序列化 Redis 存储的数据
+        Object redisData = redisTemplate.opsForHash().get(cartKey, productKey);
+        CartItem item = (redisData != null) ? objectMapper.convertValue(redisData, CartItem.class) : null;
+
         if (item == null) {
-            item = new CartItem(productId, quantity);
+            item = new CartItem(productId, quantity, LocalDateTime.now());
         } else {
             item.setQuantity(item.getQuantity() + quantity);
+            item.setUpdateTime(LocalDateTime.now());
         }
-        
+
         redisTemplate.opsForHash().put(cartKey, productKey, item);
+        redisTemplate.expire(cartKey, 7, TimeUnit.DAYS);
+
+        cartMapper.insertCartItem(userId, productId, item.getQuantity(), item.getUpdateTime());
     }
 
+    @Transactional
     @Override
     public void removeItem(Long userId, Long productId) {
         String cartKey = CART_KEY_PREFIX + userId;
-        redisTemplate.opsForHash().delete(cartKey, productId);
+        redisTemplate.opsForHash().delete(cartKey, String.valueOf(productId));
         cartMapper.removeCartItem(userId, productId);
     }
 
     @Override
     public List<CartItem> getCartItems(Long userId) {
         String cartKey = CART_KEY_PREFIX + userId;
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
 
-        // 获取 Redis 中的数据
         List<Object> rawCartItems = redisTemplate.opsForHash().values(cartKey);
         List<CartItem> cartItems = rawCartItems.stream()
-                .map(obj -> (CartItem) obj)
+                .map(obj -> objectMapper.convertValue(obj, CartItem.class))
                 .collect(Collectors.toList());
 
-        if (cartItems == null || cartItems.isEmpty()) {
+        if (cartItems.isEmpty()) {
             cartItems = cartMapper.findCartByUserId(userId);
             for (CartItem item : cartItems) {
-                redisTemplate.opsForHash().put(cartKey, item.getProductId(), item);
+                redisTemplate.opsForHash().put(cartKey, String.valueOf(item.getProductId()), item);
             }
             redisTemplate.expire(cartKey, 7, TimeUnit.DAYS);
         }
@@ -68,11 +82,11 @@ public class CartServiceImpl implements CartService {
         return cartItems;
     }
 
+    @Transactional
     @Override
     public void clearCart(Long userId) {
         String cartKey = CART_KEY_PREFIX + userId;
-        redisTemplate.delete(cartKey); // 删除 Redis 购物车数据
-        cartMapper.clearCartByUserId(userId); // 删除数据库中的购物车记录
+        redisTemplate.delete(cartKey);
+        cartMapper.clearCartByUserId(userId);
     }
-
 }

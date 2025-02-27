@@ -1,48 +1,21 @@
 package com.qxy.dyMall.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+@Data
 public class CartItem implements Serializable {
     private Long productId;
     private Integer quantity;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
 
-    public CartItem() {}
-
-    public CartItem(Long productId, Integer quantity) {
+    public CartItem(Long productId, Integer quantity, LocalDateTime updateTime) {
         this.productId = productId;
         this.quantity = quantity;
-        this.updateTime = LocalDateTime.now();
-    }
-
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-        this.updateTime = LocalDateTime.now();
-    }
-
-    public LocalDateTime getUpdateTime() {
-        return updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "CartItem{" +
-                "productId=" + productId +
-                ", quantity=" + quantity +
-                ", updateTime=" + updateTime +
-                '}';
+        this.updateTime = updateTime;
     }
 }
