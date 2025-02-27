@@ -29,6 +29,9 @@ public class CartServiceImpl implements CartService {
     @Transactional
     @Override
     public void addItem(Long userId, Long productId, Integer quantity) {
+        // 确保用户有购物车
+        cartMapper.ensureCartExists(userId);
+
         String cartKey = CART_KEY_PREFIX + userId;
         String productKey = String.valueOf(productId);
 
@@ -46,10 +49,12 @@ public class CartServiceImpl implements CartService {
             item.setUpdateTime(LocalDateTime.now());
         }
 
+        // 存储到 Redis
         redisTemplate.opsForHash().put(cartKey, productKey, item);
         redisTemplate.expire(cartKey, 7, TimeUnit.DAYS);
 
-        cartMapper.insertCartItem(userId, productId, item.getQuantity(), item.getUpdateTime());
+        // 存储到 MySQL
+        cartMapper.insertOrUpdateCartItem(userId, productId, item.getQuantity());
     }
 
     @Transactional
