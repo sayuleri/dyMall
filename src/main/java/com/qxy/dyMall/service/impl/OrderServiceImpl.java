@@ -1,5 +1,6 @@
 package com.qxy.dyMall.service.impl;
 
+import com.qxy.dyMall.dto.OrderUpdateRequest;
 import com.qxy.dyMall.mapper.CartMapper;
 import com.qxy.dyMall.mapper.OrderItemMapper;
 import com.qxy.dyMall.mapper.OrderMapper;
@@ -99,5 +100,17 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order getOrderDetails(Long orderId) {
         return orderMapper.getOrderDetails(orderId);
+    }
+
+    @Override
+    public Order updateOrder(Long userId, OrderUpdateRequest request) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'updateOrder'");
+    }
+
+    @Override
+    public void cancelOrder(Long userId, Long orderId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'cancelOrder'");
     }
 }
