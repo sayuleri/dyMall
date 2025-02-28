@@ -42,7 +42,7 @@ public class OrderController {
         return ResponseEntity.ok(orderService.getOrderDetails(orderId));
     }
 
-    // ✅ **新增：修改订单**
+    // 新增：修改订单
     @PutMapping("/update")
     public ResponseEntity<Order> updateOrder(
             @RequestHeader("Authorization") String token,
@@ -52,7 +52,7 @@ public class OrderController {
         return ResponseEntity.ok(updatedOrder);
     }
 
-    // ✅ **新增：取消订单**
+    // 新增：取消订单
     @DeleteMapping("/cancel")
     public ResponseEntity<String> cancelOrder(
             @RequestHeader("Authorization") String token,
@@ -63,6 +63,25 @@ public class OrderController {
         orderService.cancelOrder(userId, orderId);
 
         return ResponseEntity.ok("订单取消成功");
+    }
+
+    // 新增：确认订单/订单结算
+    @PostMapping("/confirm/{orderId}")
+    public ResponseEntity<Order> confirmOrder(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Long orderId) {
+        Long userId = jwtUtil.getUserIdFromToken(token);
+        return ResponseEntity.ok(orderService.confirmOrder(userId, orderId));
+    }
+
+    // 新增：支付订单
+    @PostMapping("/pay/{orderId}")
+    public ResponseEntity<String> payOrder(
+            @RequestHeader("Authorization") String token,
+            @PathVariable Long orderId) {
+        Long userId = jwtUtil.getUserIdFromToken(token);
+        boolean success = orderService.payOrder(userId, orderId);
+        return success ? ResponseEntity.ok("支付成功") : ResponseEntity.badRequest().body("支付失败");
     }
 
 }

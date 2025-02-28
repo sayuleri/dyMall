@@ -7,7 +7,8 @@ public class Order {
     private Long id;
     private Long userId;
     private BigDecimal totalPrice;
-    private int status;
+    // private int status;
+    private OrderStatus status;
     private LocalDateTime createdAt;
 
     // Getter 和 Setter 方法
@@ -35,14 +36,26 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public int getStatus() {
+    // public int getStatus() {
+    //     return status;
+    // }
+
+    // public void setStatus(int status) {
+    //     this.status = status;
+    // }
+
+    public OrderStatus getStatus() {
         return status;
     }
+    
+    // public void setStatus(OrderStatus status) {
+    //     this.status = status;
+    // }
 
     public void setStatus(int status) {
-        this.status = status;
+        this.status = OrderStatus.fromCode(status);
     }
-
+    
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }

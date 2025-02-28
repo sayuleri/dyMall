@@ -19,6 +19,7 @@ D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\mapper\UserMappe
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\CartItem.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\Order.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\OrderItem.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\OrderStatus.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\Product.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\model\User.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\service\CartService.java

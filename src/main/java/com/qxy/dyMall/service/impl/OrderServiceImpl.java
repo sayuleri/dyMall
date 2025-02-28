@@ -6,6 +6,7 @@ import com.qxy.dyMall.mapper.OrderItemMapper;
 import com.qxy.dyMall.mapper.OrderMapper;
 import com.qxy.dyMall.model.Order;
 import com.qxy.dyMall.model.OrderItem;
+import com.qxy.dyMall.model.OrderStatus;
 import com.qxy.dyMall.model.CartItem;
 import com.qxy.dyMall.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -87,9 +88,17 @@ public class OrderServiceImpl implements OrderService {
 
         // 6️⃣ 删除购物车中已结算的商品
         cartMapper.deleteCartItems(userId, productIds);
-        log.info("用户 {} 订单创建成功, 订单ID: {}, 总价: {}", userId, order.getId(), totalPrice); // ✅ 日志3：订单成功创建
+
+        // 7️⃣ 关键步骤：手动查询 `createdAt` 并赋值
+        Order orderWithCreatedAt = orderMapper.getOrderById(order.getId());
+        order.setCreatedAt(orderWithCreatedAt.getCreatedAt());
+
+        log.info("用户 {} 订单创建成功, 订单ID: {}, 总价: {}, 创建时间: {}", userId, order.getId(), totalPrice, order.getCreatedAt());
 
         return order;
+        // log.info("用户 {} 订单创建成功, 订单ID: {}, 总价: {}", userId, order.getId(), totalPrice); // ✅ 日志3：订单成功创建
+
+        // return order;
     }
 
     @Override
@@ -110,6 +119,11 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderMapper.getOrderDetails(request.getOrderId());
         if (order == null || !order.getUserId().equals(userId)) {
             throw new IllegalArgumentException("订单不存在或无权限修改");
+        }
+
+        //  限制 "已确认" 和 "已支付" 订单不能修改
+        if (order.getStatus() == OrderStatus.CONFIRMED || order.getStatus() == OrderStatus.PAID) {
+            throw new IllegalStateException("订单已确认或已支付，无法修改");
         }
 
         BigDecimal totalPrice = BigDecimal.ZERO;
@@ -149,7 +163,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 2. 检查订单是否已支付（如果有支付状态）
-        if (order.getStatus() == 1) { // 假设 1 表示已支付
+        if (order.getStatus() == OrderStatus.PAID) { // 假设 1 表示已支付
             throw new IllegalStateException("订单已支付，无法取消");
         }
 
@@ -160,6 +174,63 @@ public class OrderServiceImpl implements OrderService {
         orderMapper.deleteOrder(orderId);
 
         log.info("用户 {} 取消了订单 ID: {}", userId, orderId);
+    }
+    
+    @Override
+    @Transactional
+    public Order confirmOrder(Long userId, Long orderId) {
+        log.info("用户 {} 请求结算订单 ID: {}", userId, orderId);
+
+        Order order = orderMapper.getOrderById(orderId);
+        if (order == null || !order.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("订单不存在或无权限结算");
+        }
+
+        if (order.getStatus() != OrderStatus.PENDING) { // PENDING(0) 代表待支付
+    throw new IllegalStateException("订单状态错误，无法结算");
+    }
+
+
+        // 更新订单状态为已确认（假设 2 代表已确认，等待支付）
+        order.setStatus(2); // CONFIRMED 代表已确认
+        orderMapper.updateOrder(order);
+        log.info("订单 {} 结算成功，等待支付", orderId);
+
+        return order;
+    }
+
+    @Override
+    @Transactional
+    public boolean payOrder(Long userId, Long orderId) {
+        log.info("用户 {} 请求支付订单 ID: {}", userId, orderId);
+
+        Order order = orderMapper.getOrderById(orderId);
+        if (order == null || !order.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("订单不存在或无权限支付");
+        }
+
+        if (order.getStatus() != OrderStatus.CONFIRMED) { // CONFIRMED 代表已确认，等待支付
+            throw new IllegalStateException("订单状态错误，无法支付");
+        }
+
+        // ⚠️ 这里模拟支付成功（真实项目需要调用支付网关，例如支付宝/微信支付）
+        boolean paymentSuccess = mockPayment(order);
+
+        if (paymentSuccess) {
+            order.setStatus(1); // 1 代表已支付
+            orderMapper.updateOrder(order);
+            log.info("订单 {} 支付成功", orderId);
+            return true;
+        } else {
+            log.warn("订单 {} 支付失败", orderId);
+            return false;
+        }
+    }
+
+    // 模拟支付方法
+    private boolean mockPayment(Order order) {
+        log.info("模拟支付，订单金额: {}", order.getTotalPrice());
+        return true; // 这里默认支付成功
     }
 
 }
