@@ -103,14 +103,63 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order updateOrder(Long userId, OrderUpdateRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateOrder'");
+        log.info("用户 {} 请求修改订单 ID: {}", userId, request.getOrderId());
+
+        Order order = orderMapper.getOrderDetails(request.getOrderId());
+        if (order == null || !order.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("订单不存在或无权限修改");
+        }
+
+        BigDecimal totalPrice = BigDecimal.ZERO;
+        List<OrderItem> newOrderItems = new ArrayList<>();
+
+        for (int i = 0; i < request.getNewProductIds().size(); i++) {
+            OrderItem item = new OrderItem();
+            item.setOrderId(order.getId());
+            item.setProductId(request.getNewProductIds().get(i));
+            item.setQuantity(request.getNewQuantities().get(i));
+
+            BigDecimal price = cartMapper.getProductPrice(item.getProductId());
+            item.setPrice(price);
+            totalPrice = totalPrice.add(price.multiply(BigDecimal.valueOf(item.getQuantity())));
+
+            newOrderItems.add(item);
+        }
+
+        orderItemMapper.deleteOrderItems(order.getId());
+
+        for (OrderItem item : newOrderItems) {
+            orderItemMapper.insertOrderItem(item);
+        }
+
+        orderMapper.updateOrderTotalPrice(order.getId(), totalPrice);
+        log.info("订单 {} 更新成功，新总价: {}", order.getId(), totalPrice);
+
+        return orderMapper.getOrderDetails(order.getId());
     }
 
     @Override
     public void cancelOrder(Long userId, Long orderId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'cancelOrder'");
+        // 1. 查询订单是否属于当前用户
+        Order order = orderMapper.getOrderById(orderId);
+        if (order == null || !order.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("订单不存在或无权限取消");
+        }
+
+        // 2. 检查订单是否已支付（如果有支付状态）
+        if (order.getStatus() == 1) { // 假设 1 表示已支付
+            throw new IllegalStateException("订单已支付，无法取消");
+        }
+
+        // 3. 删除订单商品
+        orderItemMapper.deleteOrderItems(orderId);
+
+        // 4. 删除订单
+        orderMapper.deleteOrder(orderId);
+
+        log.info("用户 {} 取消了订单 ID: {}", userId, orderId);
     }
+
 }

@@ -10,9 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/order") // 确保和 Postman 里使用的路径匹配
+@RequestMapping("/api/order") // 确保路径与 Postman 一致
 public class OrderController {
 
     @Autowired
@@ -55,9 +56,13 @@ public class OrderController {
     @DeleteMapping("/cancel")
     public ResponseEntity<String> cancelOrder(
             @RequestHeader("Authorization") String token,
-            @RequestBody CancelOrderRequest cancelRequest) {
+            @RequestBody Map<String, Long> requestBody) {
         Long userId = jwtUtil.getUserIdFromToken(token);
-        orderService.cancelOrder(userId, cancelRequest.getOrderId());
+        Long orderId = requestBody.get("orderId");
+
+        orderService.cancelOrder(userId, orderId);
+
         return ResponseEntity.ok("订单取消成功");
     }
+
 }
