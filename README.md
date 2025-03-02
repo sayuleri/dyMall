@@ -70,3 +70,24 @@ total_price 和 order_items 的 price 都是 0.00，说明：
 
 - 修改订单信息（可选）
 - 订单取消
+
+---
+
+2025年3月2日
+
+frontend：
+
+|  url   | function  |  测试  |
+|  ----  | ----  | ---  |
+| /home  | 展示所有商品 ||
+| /login  | 用户登入 ||
+|  /register  |  注册  ||
+|  /product/:id  |  商品详情  ||
+|/cart|  购物车  ||
+|/profile|  用户个人中心  ||
+|/order|  订单  ||
+
+
+
+
+
