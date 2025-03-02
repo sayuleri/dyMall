@@ -1,7 +1,9 @@
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\config\CorsConfig.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\config\RedisConfig.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\config\SecurityConfig.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\CartController.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\HelloController.java
+D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\HomeController.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\LoginRequest.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\OrderController.java
 D:\BaiduSyncdisk\qxy\dyMall\dyMall\src\main\java\com\qxy\dyMall\controller\ProductController.java

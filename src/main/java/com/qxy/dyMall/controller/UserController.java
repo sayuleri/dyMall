@@ -1,6 +1,8 @@
 package com.qxy.dyMall.controller;
 
+import com.qxy.dyMall.model.Product;
 import com.qxy.dyMall.model.User;
+import com.qxy.dyMall.service.ProductService;
 import com.qxy.dyMall.service.UserService;
 import com.qxy.dyMall.utils.JwtUtil; // ✅ 确保引入 JwtUtil
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -19,6 +22,9 @@ public class UserController {
 
     @Autowired
     private JwtUtil jwtUtil;  // ✅ 确保 JWT 工具类被注入
+
+    @Autowired
+    private ProductService productService;
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Map<String, String> request) {

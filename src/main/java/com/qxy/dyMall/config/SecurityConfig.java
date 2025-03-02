@@ -24,14 +24,18 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    @SuppressWarnings("removal")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtFilter jwtFilter) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // 🔥 禁用 CSRF，避免 403 Forbidden
+            .cors().and()
+            .csrf().disable()
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/users/register", "/api/users/login").permitAll() // ✅ 允许注册和登录
-                .requestMatchers(HttpMethod.POST, "/api/cart/**", "/api/order/**").authenticated() // ✅ 允许已登录用户访问
-                .anyRequest().authenticated() // 其他 API 需要 JWT 认证
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // 允许 OPTIONS 请求
+                .requestMatchers("/api/auth/**", "/api/users/register", "/api/users/login", "/api/users/checkToken").permitAll() // 允许注册、登录、验证 Token
+                .requestMatchers(HttpMethod.GET, "/api/products/list", "/api/products/{id}").permitAll() // 允许所有人获取商品列表和详情
+                .requestMatchers("/api/cart/**", "/api/order/**", "/api/user/**").authenticated() // 需要登录的 API
+                .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
