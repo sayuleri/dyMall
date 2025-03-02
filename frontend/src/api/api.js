@@ -20,9 +20,25 @@ api.interceptors.request.use(config => {
 
 // 登录请求
 export const loginUser = async (email, password) => {
-  const response = await api.post('/users/login', { email, password });
-  localStorage.setItem('token', response.data.token);
-  return response.data;
+  try {
+    const response = await api.post('/users/login', { email, password });
+    localStorage.setItem('token', response.data.token);
+    return response.data;
+  } catch (error) {
+    console.error('登录失败', error);
+    throw error;
+  }
+};
+
+// 注册用户
+export const registerUser = async (userData) => {
+  try {
+    const response = await api.post('/users/register', userData);
+    return response.data;
+  } catch (error) {
+    console.error('注册失败', error);
+    throw error;
+  }
 };
 
 // 获取商品列表
@@ -33,14 +49,24 @@ export const fetchProducts = async () => {
 
 // 获取商品详情
 export const fetchProductDetail = async (id) => {
-  const response = await api.get(`/products/details/${id}`); // 确保后端支持
-  return response.data;
+  try {
+    const response = await api.get(`/products/${id}`); // 确保路径和后端一致
+    return response.data;
+  } catch (error) {
+    console.error('获取商品详情失败', error);
+    throw error;
+  }
 };
 
 // 获取用户信息
 export const fetchUserProfile = async (id) => {
-  const response = await api.get(`/users/profile/${id}`); // 确保路径正确
-  return response.data;
+  try {
+    const response = await api.get(`/users/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error('获取用户信息失败', error);
+    throw error;
+  }
 };
 
 export default api;

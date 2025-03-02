@@ -1,36 +1,51 @@
 <template>
     <div>
-      <h2>用户注册</h2>
-      <el-form>
-        <el-form-item label="用户名">
-          <el-input v-model="username" placeholder="请输入用户名"></el-input>
-        </el-form-item>
-        <el-form-item label="密码">
-          <el-input v-model="password" type="password" placeholder="请输入密码"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="email" placeholder="请输入邮箱"></el-input>
-        </el-form-item>
-        <el-button type="primary" @click="register">注册</el-button>
-      </el-form>
+      <h1>用户注册</h1>
+      <form @submit.prevent="register">
+        <label>用户名:</label>
+        <input v-model="username" type="text" required />
+        <br />
+  
+        <label>邮箱:</label>
+        <input v-model="email" type="email" required />
+        <br />
+  
+        <label>密码:</label>
+        <input v-model="password" type="password" required />
+        <br />
+  
+        <button type="submit">注册</button>
+      </form>
     </div>
   </template>
   
-  <script setup>
-  import { ref } from 'vue';
+  <script>
   import api from '@/api/api.js';
   
-  const username = ref('');
-  const password = ref('');
-  const email = ref('');
+  export default {
+    data() {
+      return {
+        username: '',
+        email: '',
+        password: '',
+      };
+    },
+    methods: {
+      async register() {
+        try {
+          const response = await api.post('/users/register', {
+            username: this.username,
+            email: this.email,
+            password: this.password,
+          });
   
-  const register = async () => {
-    try {
-      await api.post('/users/register', { username: username.value, password: password.value, email: email.value });
-      alert('注册成功！');
-    } catch (error) {
-      console.error('注册失败', error);
-    }
+          alert('注册成功，请登录');
+          this.$router.push('/login'); // 注册成功后跳转到登录页
+        } catch (error) {
+          alert('注册失败，请检查输入信息');
+        }
+      },
+    },
   };
   </script>
   

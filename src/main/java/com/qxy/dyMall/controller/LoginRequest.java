@@ -2,7 +2,8 @@ package com.qxy.dyMall.controller;
 
 public class LoginRequest {
     private String username;
-    private static String password;
+    // private static String password;
+    private String password; // 移除 static
     
         // 无参构造函数
         public LoginRequest() {}
@@ -22,7 +23,7 @@ public class LoginRequest {
             this.username = username;
         }
     
-        public static String getPassword() {
+        public String getPassword() {
             return password;
     }
 
