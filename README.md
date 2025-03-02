@@ -79,10 +79,10 @@ frontend：
 
 |  url   | function  |  测试  |
 |  ----  | ----  | ---  |
-| /home  | 展示所有商品 ||
+| /home  | 展示所有商品 |✅|
 | /login  | 用户登入 ||
-|  /register  |  注册  ||
-|  /product/:id  |  商品详情  ||
+|  /register  |  注册  |✅|
+|  /product/:id  |  商品详情  |✅|
 |/cart|  购物车  ||
 |/profile|  用户个人中心  ||
 |/order|  订单  ||
