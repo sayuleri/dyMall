@@ -1,39 +1,49 @@
 <template>
     <div>
       <h2>用户登录</h2>
-      <input v-model="email" placeholder="邮箱">
-      <input v-model="password" type="password" placeholder="密码">
-      <button @click="login">登录</button>
+      <form @submit.prevent="handleLogin">
+        <input v-model="username" type="text" placeholder="请输入用户名" required />
+        <input v-model="password" type="password" placeholder="请输入密码" required />
+        <button type="submit">登录</button>
+        <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
+      </form>
     </div>
-</template>
+  </template>
   
-<script>
-    import { loginUser } from '@/api/api.js'; // 改成绝对路径
+  <script>
+  import { loginUser } from '@/api/api'; // ✅ 确保路径正确
   
-    export default {
-        data() {
-        return {
-            email: '',
-            password: '',
-        };
-        },
-        methods: {
-        async login() {
-            try {
-                const response = await axios.post("http://localhost:8080/api/users/login", {
-                    username: email,  // 确保这里和后端参数一致
-                    password: password
-                });
-
-                const token = response.data.token;
-                localStorage.setItem("token", token);  // 存储 JWT
-                alert("登录成功");
-                router.push("/profile");  // 登录后跳转页面
-            } catch (error) {
-                alert("登录失败，请检查用户名和密码");
-            }
+  export default {
+    data() {
+      return {
+        username: '',
+        password: '',
+        errorMessage: '',
+      };
+    },
+    mounted() {
+      console.log("✅ Login.vue 已加载");
+    },
+    methods: {
+      async handleLogin() {
+        try {
+          console.log("📤 发送登录请求:", { username: this.username, password: this.password });
+  
+          const response = await loginUser(this.username, this.password);
+          
+          console.log("✅ 登录成功，Token:", response.token);
+  
+          localStorage.setItem('token', response.token);
+  
+          console.log("🚀 即将跳转到 /profile...");
+          this.$router.push('/profile'); // ✅ 确保 Vue Router 正确跳转
+  
+        } catch (error) {
+          this.errorMessage = '登录失败，请检查用户名和密码';
+          console.error("❌ 登录错误:", error);
         }
-        }
-    };
-</script>
+      },
+    },
+  };
+  </script>
   

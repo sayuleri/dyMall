@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+
 @Service
 public class UserService {
 
@@ -17,6 +18,9 @@ public class UserService {
     
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private UserMapper userRepository;
 
     // 🔹 注册用户（新增 email 唯一性检查）
     public void registerUser(String username, String password, String email) {
@@ -43,6 +47,11 @@ public class UserService {
     // 🔹 根据 ID 查询用户
     public User getUserById(Long id) {
         return userMapper.findUserById(id);
+    }
+
+     //  通过用户名获取用户
+     public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     // 🔹 根据用户名查询用户

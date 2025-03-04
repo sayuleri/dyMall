@@ -33,6 +33,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // 允许 OPTIONS 请求
                 .requestMatchers("/api/auth/**", "/api/users/register", "/api/users/login", "/api/users/checkToken").permitAll() // 允许注册、登录、验证 Token
+                .requestMatchers("/api/users/profile").authenticated() // ✅ 需要认证的端点
                 .requestMatchers(HttpMethod.GET, "/api/products/list", "/api/products/{id}").permitAll() // 允许所有人获取商品列表和详情
                 .requestMatchers("/api/cart/**", "/api/order/**", "/api/user/**").authenticated() // 需要登录的 API
                 .anyRequest().authenticated()

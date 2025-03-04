@@ -61,6 +61,26 @@ public class UserController {
         return ResponseEntity.ok(Map.of("token", token));
     }
 
+     // ✅ 添加 `/profile` 端点，解析 `Authorization` 头
+     @GetMapping("/profile")
+     public ResponseEntity<?> getUserProfile(@RequestHeader("Authorization") String token) {
+         try {
+             // ✅ 解析 Token 获取用户名
+             String username = jwtUtil.extractUsername(token.replace("Bearer ", ""));
+             System.out.println("✅ 提取的用户名: " + username);
+ 
+             // ✅ 查询用户信息
+             User user = userService.getUserByUsername(username);
+             if (user != null) {
+                 return ResponseEntity.ok(user);
+             } else {
+                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("用户不存在");
+             }
+         } catch (Exception e) {
+             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("无效的 Token");
+         }
+     }
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         User user = userService.getUserById(id);
