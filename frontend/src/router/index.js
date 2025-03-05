@@ -13,9 +13,9 @@ const routes = [
   { path: '/login', component: Login },
   { path: '/register', component: Register },
   { path: '/product/:id', component: ProductDetail },
-  { path: '/cart', component: Cart },
+  { path: '/cart/items', component: Cart },  
   { path: '/profile', component: Profile, meta: { requiresAuth: true } },
-  { path: '/order', component: Order },
+  { path: '/order/list', component: Order }  
 ];
 
 const router = createRouter({

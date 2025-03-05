@@ -21,8 +21,16 @@
   
   <script>
   import api from '@/api/api.js';
+  import { ref } from 'vue';
+  import { ElTable, ElTableColumn, ElButton, ElInput } from 'element-plus';
   
   export default {
+    components: {
+    ElTable,
+    ElTableColumn,
+    ElButton,
+    ElInput
+   },
     data() {
       return {
         username: '',

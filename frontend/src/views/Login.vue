@@ -12,8 +12,16 @@
   
   <script>
   import { loginUser } from '@/api/api'; // ✅ 确保路径正确
-  
+  import { ref } from 'vue';
+import { ElTable, ElTableColumn, ElButton, ElInput } from 'element-plus';
+
   export default {
+    components: {
+    ElTable,
+    ElTableColumn,
+    ElButton,
+    ElInput
+    },
     data() {
       return {
         username: '',

@@ -144,4 +144,26 @@ export const fetchProductDetail = async (id) => {
   }
 };
 
+export const getCartItems = async () => {
+    const response = await api.get("/cart");
+    return response.data;
+  };
+  
+  export const updateCartItem = async (id, quantity) => {
+    await api.put(`/cart/${id}`, { quantity });
+  };
+  
+  export const removeCartItem = async (id) => {
+    await api.delete(`/cart/${id}`);
+  };
+  
+  export const checkoutCart = async () => {
+    await api.post("/cart/checkout");
+  };
+  
+  export const getOrders = async () => {
+    const response = await api.get("/orders");
+    return response.data;
+  };
+  
 export default api;

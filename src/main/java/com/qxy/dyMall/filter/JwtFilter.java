@@ -34,8 +34,11 @@ public class JwtFilter extends OncePerRequestFilter {
         System.out.println("🔍 收到请求: " + requestURI);
 
         // 🔥 放行 /register 和 /login 请求，不需要 JWT
-        if (requestURI.startsWith("/api/users/register") || requestURI.startsWith("/api/users/login")) {
-            chain.doFilter(request, response);
+        if (requestURI.startsWith("/api/users/register") || 
+            requestURI.startsWith("/api/users/login")|| 
+            requestURI.startsWith("/api/cart") ||  // 放行购物车接口
+            requestURI.startsWith("/api/orders"))  // 放行订单接口
+            {chain.doFilter(request, response);
             return;
         }
 

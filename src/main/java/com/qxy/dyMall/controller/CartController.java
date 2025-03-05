@@ -61,7 +61,8 @@ public class CartController {
     public ResponseEntity<?> getCartItems(@RequestHeader("Authorization") String token) {
         String username = jwtUtil.extractUsername(token.substring(7));
         User user = userService.findByUsername(username);
-
+        System.out.println("收到 Token：" + token);
+        System.out.println("解析出的用户名：" + username);
         if (user == null) {
             return ResponseEntity.status(401).body("用户不存在");
         }

@@ -10,9 +10,17 @@
   </template>
   
   <script>
+  import { ref } from 'vue';
   import { fetchUserProfile } from '@/api/api.js';
+  import { ElTable, ElTableColumn, ElButton, ElInput } from 'element-plus';
   
   export default {
+    components: {
+    ElTable,
+    ElTableColumn,
+    ElButton,
+    ElInput
+   },
     data() {
       return {
         user: null,
